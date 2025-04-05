@@ -8,6 +8,11 @@ export default function Editor() {
         extensions: [StarterKit],
         content: "<p>Hello, this is your Tiptap editor!</p>",
         immediatelyRender: false,
+        editorProps: {
+            attributes: {
+                class: "prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl focus:outline-none min-h-[250px]"
+            }
+        }
     });
 
     if (!editor) {
@@ -15,8 +20,11 @@ export default function Editor() {
     }
 
     return (
-        <div className="p-4 border rounded-lg">
-            <EditorContent editor={editor} className="prose max-w-full" />
+        <div className="flex flex-col">
+            <div className="w-full p-2">
+                <h2>Editor</h2>
+                <EditorContent editor={editor} className="border rounded-lg p-2" />
+            </div>
         </div>
     );
 }
