@@ -1,6 +1,33 @@
-import { AlignCenter, AlignLeft, AlignRight, Bold, Heading1, Heading2, Heading3, Highlighter, Italic, List, ListOrdered, Strikethrough } from "lucide-react";
+// components/menu-bar.tsx
+import {
+    AlignCenter,
+    AlignLeft,
+    AlignRight,
+    Bold,
+    CheckCircle2,
+    Heading1,
+    Heading2,
+    Heading3,
+    Highlighter,
+    Info,
+    Italic,
+    List,
+    ListOrdered,
+    MessageSquare,
+    Strikethrough,
+    AlertTriangle,
+    XCircle
+} from "lucide-react";
 import { Toggle } from "../ui/toggle";
 import { Editor } from "@tiptap/react";
+import { CalloutType } from "../extensions/callout";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "../ui/dropdown-menu";
 
 export default function MenuBar({ editor }: { editor: Editor | null }) {
     if (!editor) {
@@ -70,13 +97,64 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
         },
     ];
 
+    const calloutTypes: { value: CalloutType; icon: React.ReactNode; label: string; shortcut: string }[] = [
+        { value: 'info', icon: <Info className="size-4" />, label: 'Information', shortcut: 'Mod+Alt+I' },
+        { value: 'warning', icon: <AlertTriangle className="size-4" />, label: 'Warning', shortcut: 'Mod+Alt+W' },
+        { value: 'error', icon: <XCircle className="size-4" />, label: 'Error', shortcut: 'Mod+Alt+E' },
+        { value: 'bestPractice', icon: <CheckCircle2 className="size-4" />, label: 'Best Practice', shortcut: 'Mod+Alt+B' },
+    ];
+
+    const toggleCallout = (type: CalloutType) => {
+        if (editor.isActive('callout', { type })) {
+            editor.chain().focus().unsetCallout().run();
+        } else if (editor.isActive('callout')) {
+            editor.chain().focus().changeCalloutType(type).run();
+        } else {
+            editor.chain().focus().toggleCallout({ type }).run();
+        }
+    };
+
     return (
-        <div className="border rounded-md p-1 mb-1 bg-slate-50 space-x-2 z-50">
+        <div className="border rounded-md p-1 mb-1 bg-slate-50 space-x-2 z-50 flex flex-wrap">
             {Options.map((option, index) => (
                 <Toggle key={index} pressed={option.pressed} onPressedChange={option.onClick}>
                     {option.icon}
                 </Toggle>
             ))}
+
+            <div className="h-6 w-px bg-border mx-1"></div>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Toggle
+                        pressed={editor.isActive('callout')}
+                        onPressedChange={() => editor.chain().focus().toggleCallout().run()}
+                    >
+                        <MessageSquare className="size-4" />
+                    </Toggle>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {calloutTypes.map((type) => (
+                        <DropdownMenuItem
+                            key={type.value}
+                            onClick={() => toggleCallout(type.value)}
+                            className="flex items-center gap-2"
+                        >
+                            {type.icon}
+                            <span>{type.label}</span>
+                            <span className="ml-auto text-xs text-muted-foreground">{type.shortcut}</span>
+                        </DropdownMenuItem>
+                    ))}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                        onClick={() => editor.chain().focus().unsetCallout().run()}
+                        disabled={!editor.isActive('callout')}
+                        className="text-destructive"
+                    >
+                        Remove Callout
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     )
 }

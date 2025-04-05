@@ -1,3 +1,4 @@
+// components/text-editor.tsx
 "use client"
 
 import { EditorContent, useEditor } from '@tiptap/react'
@@ -6,6 +7,7 @@ import React from 'react'
 import MenuBar from './menu-bar'
 import TextAlign from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
+import Callout from '../extensions/callout'
 
 interface TextEditorProps {
     content: string;
@@ -31,7 +33,12 @@ export default function TextEditor({ content, onChange }: TextEditorProps) {
                 types: ['heading', 'paragraph'],
                 defaultAlignment: 'left',
             }),
-            Highlight
+            Highlight,
+            Callout.configure({
+                HTMLAttributes: {
+                    class: 'callout'
+                }
+            })
         ],
         content: content,
         immediatelyRender: false,
@@ -42,7 +49,7 @@ export default function TextEditor({ content, onChange }: TextEditorProps) {
         },
         onUpdate: ({ editor }) => {
             onChange(editor.getHTML());
-        }
+        },
     })
 
     return (

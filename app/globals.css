@@ -129,3 +129,55 @@
     @apply text-lg font-bold;
   }
 }
+
+/* Add this to your globals.css file */
+
+/* Callout styles */
+.callout {
+  position: relative;
+}
+
+.callout[data-type="info"] {
+  --callout-color: oklch(0.6 0.118 184.704);
+}
+
+.callout[data-type="warning"] {
+  --callout-color: oklch(0.769 0.188 70.08);
+}
+
+.callout[data-type="error"] {
+  --callout-color: oklch(0.577 0.245 27.325);
+}
+
+.callout[data-type="bestPractice"] {
+  --callout-color: oklch(0.646 0.222 41.116);
+}
+
+.ProseMirror .callout {
+  margin: 1em 0;
+}
+
+.ProseMirror .callout:focus-within {
+  outline: 2px solid var(--callout-color);
+  outline-offset: 2px;
+}
+
+.dark .callout-info {
+  background-color: oklch(0.488 0.243 264.376 / 0.1);
+  border-color: oklch(0.488 0.243 264.376);
+}
+
+.dark .callout-warning {
+  background-color: oklch(0.645 0.246 16.439 / 0.1);
+  border-color: oklch(0.645 0.246 16.439);
+}
+
+.dark .callout-error {
+  background-color: oklch(0.704 0.191 22.216 / 0.1);
+  border-color: oklch(0.704 0.191 22.216);
+}
+
+.dark .callout-bestPractice {
+  background-color: oklch(0.696 0.17 162.48 / 0.1);
+  border-color: oklch(0.696 0.17 162.48);
+}
