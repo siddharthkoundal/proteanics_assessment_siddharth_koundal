@@ -96,7 +96,7 @@ Use a diffing algorithm like `diff-match-patch`:
 
 - Use Tiptap’s `editor.commands.insertContentAt(range, content)` to replace the selection
 - Validate content using schema
-- Handle nested nodes or marks (e.g., if editing inside a `callout`)
+- Handle nested nodes or marks (`callout`)
 
 ---
 
@@ -114,7 +114,7 @@ Use a diffing algorithm like `diff-match-patch`:
 
 ---
 
-## Edge Cases & Robustness
+## Edge Cases
 
 | Scenario | Handling |
 |---------|----------|
