@@ -2,6 +2,14 @@
 
 This project implements a text editor using Tiptap and ProseMirror, featuring a customizable callout component.
 
+## Implementation Details
+
+The editor is built using:
+- Next.js
+- Tiptap editor framework
+- TailwindCSS for styling
+- shadCn library
+
 ## Features
 
 - Rich text editing with standard formatting options
@@ -58,13 +66,5 @@ You can create nested callouts by:
 ## Demo
 
 [Demonstration video](https://drive.google.com/file/d/16S4nAhPnRXNCsga5FjC6pOD1qKWpY1hz/view?usp=sharing)
-
-## Implementation Details
-
-The editor is built using:
-- Next.js
-- Tiptap editor framework
-- TailwindCSS for styling
-- shadCn library
 
 The callout component is implemented as a custom Tiptap node with React NodeView rendering.
