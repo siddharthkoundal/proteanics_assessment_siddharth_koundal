@@ -8,6 +8,7 @@ The editor is built using:
 - Next.js
 - Tiptap editor framework
 - TailwindCSS for styling
+- TypeScript
 - shadCn library
 
 ## Features
