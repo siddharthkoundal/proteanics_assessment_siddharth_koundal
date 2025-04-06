@@ -1,4 +1,4 @@
-# AI-Enabled Inline Edit Feature — Design Document
+# Design Document - AI-Enabled Inline Edits
 
 ## Goal
 
