@@ -70,7 +70,7 @@ A custom extension will handle:
   - Spinner/loading state
   - "Cancel" button
 
-### LLM API Backend
+### LLM API Request and Response Body
 
 ```ts
 
