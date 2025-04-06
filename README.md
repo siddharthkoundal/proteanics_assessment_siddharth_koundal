@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Text Editor 
 
-## Getting Started
+This project implements a text editor using Tiptap and ProseMirror, featuring a customizable callout component.
 
-First, run the development server:
+## Features
 
+- Rich text editing with standard formatting options
+- Text alignment controls
+- Ordered and unordered lists
+- Text highlighting
+- Custom callout component with multiple types (info, warning, error, best practice)
+
+## Setup and Installation
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
+3. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+4. Open http://localhost:3000 in your browser
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Callout Component
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The callout component allows you to create highlighted information blocks in your document with different types:
 
-## Learn More
+- Information (blue)
+- Warning (amber)
+- Error (red)
+- Best Practice (green)
 
-To learn more about Next.js, take a look at the following resources:
+#### Keyboard Shortcuts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Alt+I**: Toggle Information callout
+- **Alt+W**: Toggle Warning callout
+- **Alt+E**: Toggle Error callout
+- **Alt+B**: Toggle Best Practice callout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Using Callouts
 
-## Deploy on Vercel
+1. Position your cursor where you want to add a callout
+2. Press one of the keyboard shortcuts or use the callout button in the toolbar
+3. Type your content inside the callout
+4. Use the type buttons in the callout header to change the callout type
+5. Use the trash icon to remove the callout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Nested Callouts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You can create nested callouts by:
+1. Placing your cursor inside an existing callout
+2. Using the callout button or keyboard shortcut again
+
+## Demo
+
+[Demonstration video](https://drive.google.com/file/d/16S4nAhPnRXNCsga5FjC6pOD1qKWpY1hz/view?usp=sharing)
+
+## Implementation Details
+
+The editor is built using:
+- Next.js
+- Tiptap editor framework
+- TailwindCSS for styling
+- shadCn library
+
+The callout component is implemented as a custom Tiptap node with React NodeView rendering.
