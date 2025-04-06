@@ -1,5 +1,5 @@
 // components/callout-component.tsx
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
 import { Info, AlertTriangle, XCircle, CheckCircle2, Trash2 } from 'lucide-react'
 import { Toggle } from './ui/toggle'
@@ -9,7 +9,6 @@ import { NodeViewContent } from '@tiptap/react'
 const CalloutComponent: React.FC<NodeViewProps> = ({
     node,
     editor,
-    getPos,
     updateAttributes
 }) => {
     const type = node.attrs.type as CalloutType;

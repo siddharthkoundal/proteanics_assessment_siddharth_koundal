@@ -1,11 +1,12 @@
-// components/extensions/callout.ts
 import { mergeAttributes, Node } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import CalloutComponent from "../callout-component";
+import { TextSelection } from "prosemirror-state";
 
 export type CalloutType = "info" | "warning" | "error" | "bestPractice";
 
 export interface CalloutOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   HTMLAttributes: Record<string, any>;
   types: CalloutType[];
   defaultType: CalloutType;
@@ -30,6 +31,10 @@ declare module "@tiptap/core" {
        * Change the type of the callout
        */
       changeCalloutType: (type: CalloutType) => ReturnType;
+      /**
+       * Create a nested callout
+       */
+      createNestedCallout: (attributes?: { type?: CalloutType }) => ReturnType;
     };
   }
 }
@@ -75,8 +80,8 @@ export const Callout = Node.create<CalloutOptions>({
 
           const type = element.getAttribute("data-type");
 
-          if (!type || !this.options.types.includes(type as CalloutType)) {
-            return false;
+          if (!type || typeof type !== "string") {
+            return { type: this.options.defaultType };
           }
 
           return { type };
@@ -107,16 +112,29 @@ export const Callout = Node.create<CalloutOptions>({
         ({ commands }) => {
           return commands.wrapIn(this.name, attributes);
         },
+
+      // Modified toggleCallout command to better handle nesting
       toggleCallout:
         (attributes) =>
         ({ commands }) => {
+          // Check if we're already in a callout of the same type
+          const isInCallout = this.editor.isActive(this.name, attributes);
+
+          // If we're already in the same type of callout, try to create a nested one
+          if (isInCallout) {
+            return commands.createNestedCallout(attributes);
+          }
+
+          // Otherwise use the standard toggle behavior
           return commands.toggleWrap(this.name, attributes);
         },
+
       unsetCallout:
         () =>
         ({ commands }) => {
           return commands.lift(this.name);
         },
+
       changeCalloutType:
         (type) =>
         ({ commands, editor }) => {
@@ -125,6 +143,29 @@ export const Callout = Node.create<CalloutOptions>({
           }
 
           return commands.updateAttributes(this.name, { type });
+        },
+
+      // New command to create a nested callout
+      createNestedCallout:
+        (attributes) =>
+        ({ commands, dispatch, state }) => {
+          if (!dispatch) return true;
+
+          const { selection, schema } = state;
+          const { $to } = selection;
+
+          // Create a new paragraph after current selection
+          const paragraph = schema.nodes.paragraph.create();
+          const tr = state.tr.insert($to.after(), paragraph);
+
+          // Move selection into that new paragraph
+          tr.setSelection(TextSelection.near(tr.doc.resolve($to.after() + 1)));
+
+          // Apply transaction
+          dispatch(tr);
+
+          // Now wrap that new paragraph in a callout
+          return commands.wrapIn("callout", attributes);
         },
     };
   },

@@ -106,10 +106,13 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
 
     const toggleCallout = (type: CalloutType) => {
         if (editor.isActive('callout', { type })) {
-            editor.chain().focus().unsetCallout().run();
+            // If we're already in a callout of the same type, create a nested one
+            editor.chain().focus().createNestedCallout({ type }).run();
         } else if (editor.isActive('callout')) {
+            // If we're in a different type of callout, change the type
             editor.chain().focus().changeCalloutType(type).run();
         } else {
+            // If we're not in a callout, create a new one
             editor.chain().focus().toggleCallout({ type }).run();
         }
     };
